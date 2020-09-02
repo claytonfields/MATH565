@@ -8,6 +8,8 @@ Created on Thu Aug 27 14:40:47 2020
 
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.integrate import quad
+
 
 ##Problem 1 
 
@@ -43,20 +45,37 @@ def f(x):
     return 1/(1+x**2)
 
 
-trapz(f, 0, 1 ,n=10)
-trapz(f, 0, 1, n=20)
+I_trap = trapz(f, 0, 1 ,n=10)
+I = quad(f,0,1)[0]
+errorvquad = I_trap - I
+print(errorvquad)
 
+I_trap = trapz(f, 0, 1, n=20)
+errorvquad = I_trap - I
+print(errorvquad)
 
 #Polynomial
+# def polyval(coef,x):
+#     n = len(list(coef))
+#     ##coef = coef[::-1]
+#     P_x = coef[1]+x
+#     x_n = np.copy(x)
+#     for i in range(2,n):
+#         P_x *= x
+#         P_x += coef[i]
+#     P_x += coef[0]
+#     return P_x
+
 def polyval(coef,x):
     n = len(list(coef))
-    coef = coef[::-1]
-    P_x = coef[0] + coef[1]*x
-    x_n = np.copy(x)
+    P_x = coef[0]*x+coef[1]
     for i in range(2,n):
-        x_n*= x
-        P_x += x_n*coef[i]
+        P_x *= x
+        P_x += coef[i]
     return P_x
+
+
+
 
 coef = [3.1, np.pi, -1, 0, 4.7, 4]
 polyval(coef,1)
